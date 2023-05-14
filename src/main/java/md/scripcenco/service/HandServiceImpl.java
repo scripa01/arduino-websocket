@@ -1,27 +1,21 @@
 package md.scripcenco.service;
 
-import md.scripcenco.controller.command.ChangeStateCommand;
+import md.scripcenco.controller.command.ChangeFingerStateCommand;
 import md.scripcenco.dto.MovementDto;
 import md.scripcenco.model.Action;
 import md.scripcenco.model.Finger;
+import md.scripcenco.state.HandState;
 import org.springframework.stereotype.Service;
 
-import java.util.EnumMap;
+import java.util.Map;
 
 import static java.util.Arrays.stream;
 
 @Service
-public class HandServiceImpl implements HandService {
-
-    private static final EnumMap<Finger, Action> FINGER_STATE;
-
-    static {
-        FINGER_STATE = new EnumMap<>(Finger.class);
-    }
+class HandServiceImpl implements HandService {
 
     @Override
     public MovementDto getInformation() {
-
         return new MovementDto(
                 stream(Action.values()).toList(),
                 stream(Finger.values()).toList()
@@ -29,14 +23,12 @@ public class HandServiceImpl implements HandService {
     }
 
     @Override
-    public EnumMap<Finger, Action> getCurrentState() {
-        return FINGER_STATE.clone();
+    public Map<Finger, Action> getCurrentState() {
+        return HandState.getState();
     }
 
     @Override
-    public void submitState(ChangeStateCommand changeStateCommand) {
-        // TODO переписать состояние руки, веб-Сокет
-
-        FINGER_STATE.putAll(changeStateCommand.getFingerStates());
+    public void submitState(ChangeFingerStateCommand changeStateCommand) {
+        HandState.update(changeStateCommand.getFingerStates());
     }
 }

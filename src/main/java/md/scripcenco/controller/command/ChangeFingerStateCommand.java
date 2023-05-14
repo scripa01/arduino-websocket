@@ -5,12 +5,10 @@ import md.scripcenco.model.Action;
 import md.scripcenco.model.Finger;
 
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
-public class ChangeStateCommand {
+public class ChangeFingerStateCommand {
 
-    private Map<Finger, Action> fingerStates = new HashMap<>();
+    private EnumMap<Finger, Action> fingerStates = new EnumMap<>(Finger.class);
 
 }

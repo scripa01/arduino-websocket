@@ -1,22 +1,31 @@
 package md.scripcenco.controller;
 
-import md.scripcenco.controller.command.ChangeStateCommand;
+import lombok.RequiredArgsConstructor;
+import md.scripcenco.controller.command.ChangeFingerStateCommand;
+import md.scripcenco.service.HandService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HandController {
+@RequestMapping({"/", "/main"})
+@RequiredArgsConstructor
+class HandController {
+
+    private final HandService handService;
+
     @GetMapping
     public ModelAndView handForm() {
-        return new ModelAndView("hand");
+        return new ModelAndView("hand")
+                .addObject("fingers", handService.getInformation())
+                .addObject("changeFingerStateCommand", new ChangeFingerStateCommand());
     }
 
     @PostMapping
-    public ModelAndView submit(@ModelAttribute("state") ChangeStateCommand changeStateCommand) {
-        return new ModelAndView("result");
+    public ModelAndView submit(@ModelAttribute("state") ChangeFingerStateCommand changeStateCommand) {
+        return new ModelAndView("hand");
     }
 }

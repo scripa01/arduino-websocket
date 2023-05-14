@@ -1,18 +1,17 @@
 package md.scripcenco.service;
 
-import md.scripcenco.controller.command.ChangeStateCommand;
+import md.scripcenco.controller.command.ChangeFingerStateCommand;
 import md.scripcenco.dto.MovementDto;
 import md.scripcenco.model.Action;
 import md.scripcenco.model.Finger;
 
-import java.util.EnumMap;
-import java.util.List;
+import java.util.Map;
 
 public interface HandService {
 
     MovementDto getInformation();
 
-    EnumMap<Finger, Action> getCurrentState();
+    Map<Finger, Action> getCurrentState();
 
-    void submitState(ChangeStateCommand changeStateCommand);
+    void submitState(ChangeFingerStateCommand changeStateCommand);
 }
